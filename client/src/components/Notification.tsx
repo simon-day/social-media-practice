@@ -2,10 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import gql from "graphql-tag";
 import { useSubscription } from "@apollo/client";
 import { Message } from "semantic-ui-react";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth";
 
-const Notification: React.FC<any> = (props) => {
+const Notification: React.FC<any> = () => {
   const context = useContext(AuthContext);
   const user: any = context.user;
   const [visible, setVisible] = useState(false);
@@ -16,7 +15,7 @@ const Notification: React.FC<any> = (props) => {
     if (data?.newPost && data?.newPost.username !== user?.username) {
       setVisible(true);
     }
-  }, [data]);
+  }, [data, user]);
 
   const handleDismiss = () => {
     setVisible(false);
@@ -27,7 +26,7 @@ const Notification: React.FC<any> = (props) => {
   }
 
   if (visible) {
-    const { id, username, body } = data?.newPost;
+    const { username } = data?.newPost;
 
     return (
       <Message
@@ -38,7 +37,7 @@ const Notification: React.FC<any> = (props) => {
       />
     );
   } else {
-    return <div></div>;
+    return <div />;
   }
 };
 
